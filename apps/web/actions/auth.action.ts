@@ -57,17 +57,60 @@ export async function signin(data:AUTHTYPES.SIGNIN):Promise<ApiResponse|string> 
         await createSession({
             user:{
                 id:result.data.data.id,
-                name:result.data.data.name
+                name:result.data.data.name,
+                role:result.data.data.role
             },
             accessToken:result.data.data.accessToken,
             refreshToken:result.data.data.refreshToken
         })
-        redirect("/");
     }
     return "Invalid credential";
 }
 
 export async function signout() {
-  (await cookies()).delete("session");
-  redirect("/signin");
+  try {
+    const res=await API.post("/auth/signout");
+    if(res.status < 400) {
+      (await cookies()).delete("session");
+      redirect("/signin"); 
+    }
+    throw new Error(res.data.message);
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+
+export async function refreshToken(oldRefreshToken:string) {
+  const res=await API.post('/auth/refresh',{refresh:oldRefreshToken});
+
+  if(!res.data.success) {
+    throw new Error(res.data.message);
+  }
+  const { accessToken, refreshToken }=res.data.data;
+
+  await updateToken({ accessToken, refreshToken });
+
+  return true
+}
+
+export async function updateToken({ accessToken, refreshToken }:{  accessToken:string, refreshToken:string }) {
+  const cookie=(await cookies()).get("session")?.value;
+  if(!cookie) return null;
+
+  const result = await jwtVerify(cookie, encodedKey, {
+    algorithms: ["HS256"]
+  });
+  const { payload: { user } } = result;
+
+  if(!user) {
+    throw new Error("Invalid cookie");
+  }
+  const newPayload={
+    user,
+    accessToken,
+    refreshToken
+  }
+
+  await createSession(newPayload as Session);
 }

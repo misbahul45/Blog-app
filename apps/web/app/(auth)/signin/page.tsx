@@ -1,9 +1,9 @@
 import FormSignin from '@/components/auth/FormSignin'
-import { Button } from '@/components/ui/button'
+import OauthButton from '@/components/auth/OauthButton'
+import { SigninOauth } from '@/constans'
 import Link from 'next/link'
 import React from 'react'
 
-const oauth=["Signin with Google","Signin with Github"]
 const page = () => {
   return (
     <div className='h-screen'>
@@ -19,8 +19,8 @@ const page = () => {
               </h1>
               <p className='text-center text-sm text-gray-300'>"learning is the best way to become a better person"</p>
               <div className='flex gap-2 w-full'>
-                {oauth.map((item,i)=>(
-                  <Button key={i} variant={'ghost'} className='w-full text-sm mb-2 text-gray-400  border-slate-200'>{item}</Button>
+                {SigninOauth.map((item,i)=>(
+                  <OauthButton key={i} link={item.link} name={item.name} />
                 ))}
               </div>
               <FormSignin />

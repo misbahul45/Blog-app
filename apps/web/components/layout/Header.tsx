@@ -1,12 +1,16 @@
 'use client';
-
 import Link from 'next/link';
 import Navbar from './Navbar';
 import AuthButton from './AuthButton';
 import React from 'react';
 import useScrollVisibility from '@/hooks/useCostumVisibility';
+import { User } from '@/types/web.types';
 
-const Header = () => {
+interface Props {
+  user: User | null;
+}
+
+const Header = ({ user }: Props) => {
   const { isVisible, preventHide } = useScrollVisibility(3000);
   const headerRef = React.useRef<HTMLDivElement>(null);
 
@@ -41,7 +45,7 @@ const Header = () => {
           MCLearn
         </Link>
         <Navbar />
-        <AuthButton />
+        <AuthButton user={user} />
       </nav>
     </header>
   );

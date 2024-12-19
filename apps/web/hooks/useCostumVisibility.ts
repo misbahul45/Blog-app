@@ -24,6 +24,7 @@ const useScrollVisibility = (timeout: number = 3000) => {
         setIsVisible(false);
       }, timeout);
     }
+    
     return () => {
       if (timerRef.current) {
         clearTimeout(timerRef.current);

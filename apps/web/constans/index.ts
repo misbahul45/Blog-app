@@ -10,3 +10,16 @@ export const Navbar=[
         path:'/dashboard'
     }
 ]
+
+
+export const SigninOauth=[
+    {
+      name:"Signin with Google",
+      link:"auth/google/login",
+    }
+    ,
+    {
+      name:"Signin with Github",
+      link:"auth/github/login",
+    }
+  ]

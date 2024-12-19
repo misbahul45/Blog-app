@@ -4,20 +4,11 @@ import Link from 'next/link';
 import React from 'react';
 import { Button } from '../ui/button';
 import { User } from '@/types/web.types';
+interface Props {
+    user: User | null
+}
+const AuthButton = ({ user }: Props) => {
 
-const AuthButton = () => {
-    const [user, setUser]=React.useState<User|null>()
-
-    React.useEffect(() => {
-        const fetchUser=async()=>{
-            const session=await getSession()
-            if(session){
-                const user=session.user;
-                setUser(user)
-            }
-        }
-        fetchUser()
-    },[])
     return (
         <>
             {user ? (

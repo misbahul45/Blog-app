@@ -40,15 +40,10 @@ const FormSignin = () => {
   const onSubmit = async (data: z.infer<typeof AUTHVALIDATION.LoginValidation>) => {
     try {
       await sleep();
-      const result: ApiResponse|string = await signin({
+      await signin({
         email: data.email,
         password: data.password,
       });
-      if(typeof result === 'string') {
-        console.log(result)
-      }else{
-        form.reset();
-      }
     } catch (error) {
       console.log(error)
     }

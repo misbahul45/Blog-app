@@ -1,4 +1,4 @@
-'use client'
+
 import React from 'react'
 import { Navbar as NavbarItem } from '@/constans'
 import Link from 'next/link'
@@ -6,7 +6,7 @@ import { usePathname } from 'next/navigation'
 
 const Navbar = () => {
     const pathName=usePathname()
-    const [showNavbar,setShowNavbar]=React.useState(false)
+
   return (
     <div className='flex gap-2.5'>
         {NavbarItem.map((item,i)=>(
